@@ -1,11 +1,9 @@
 import streamlit as st
 
-st.set_page_config(layout="wide")  # ตั้งค่าหน้าจอให้กว้างเพื่อความสวยงาม
+# 1. บังคับให้หน้าเว็บขยายเต็มจอซ้าย-ขวา
+st.set_page_config(layout="wide")
 
-st.title("แสดงหน้าเว็บใน Streamlit")
-
-# ใส่ URL ที่ต้องการแสดง
+# 2. ปรับความกว้าง (width) และความสูง (height) ให้ใหญ่ขึ้น
+# การใช้ use_container_width=True จะช่วยให้มันยืดตามขนาดหน้าจอคอมพิวเตอร์
 url = "https://prehistoric-mind-mirror-core.base44.app"
-
-# แสดงผลผ่าน iframe (สามารถปรับความกว้าง width และความสูง height ได้ตามต้องการ)
-st.components.v1.iframe(url, width=1000, height=800, scrolling=True)
+st.components.v1.iframe(url, height=900, scrolling=True)
