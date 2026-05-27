@@ -1,46 +1,40 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-# 1. ตั้งค่าพื้นฐานเปิดโหมดจอกว้าง
-st.set_page_config(layout="wide", page_title="MindMirror", page_icon="👁️")
+# 1. ตั้งค่าพื้นฐาน: เปลี่ยนชื่อเป็น MindMirror และขยายจอให้กว้างที่สุด
+st.set_page_config(
+    page_title="MindMirror",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
-# 2. ใช้ CSS เพื่อทำลายขอบขาว (Padding/Margin) ทั้งหมดของ Streamlit ให้เป็น 0
+# 2. CSS Hack: สั่งซ่อนทุกอย่างที่เป็นของ Streamlit เพื่อให้แสดงผลได้คลีนที่สุด
 st.markdown("""
     <style>
-    /* ลบ padding ของกล่องครอบทั้งหมด */
-    .main .block-container {
+    /* ซ่อน Header และ Footer */
+    header, footer {visibility: hidden !important;}
+    
+    /* ลบช่องว่างรอบๆ ตัวเว็บเพื่อให้ iframe ชิดขอบ */
+    .block-container {
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
         padding-left: 0rem !important;
         padding-right: 0rem !important;
-        max-width: 100% !important;
     }
     
-    /* ซ่อน Header แถบสีขาวด้านบนสุดของ Streamlit */
-    header {
-        visibility: hidden !important;
-        height: 0px !important;
+    /* บังคับให้ส่วนเนื้อหาไม่มีระยะขอบด้านบน */
+    [data-testid="stAppViewContainer"] > section:nth-child(2) > div:nth-child(1) {
+        padding-top: 0rem !important;
     }
-    
-    /* ซ่อน Footer ด้านล่าง */
-    footer {
-        visibility: hidden !important;
-        height: 0px !important;
-    }
-    
-    /* สั่งให้กล่องเนื้อหาหลักขยายตัวเต็มพื้นที่ */
-    .stApp {
-        margin: 0px !important;
-        padding: 0px !important;
+
+    /* ปรับแต่ง iframe ให้กว้างเต็มจอ */
+    iframe {
+        width: 100%;
+        border: none;
     }
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-url = "https://prehistoric-mind-mirror-core.base44.app"
-
-# 3. กำหนดตัวแปร HTML iframe
-iframe_html = f"""
-    <iframe src="{url}" style="width:100%; height:100vh; border:none; margin:0; padding:0; overflow:hidden;"></iframe>
-"""
-
-# 4. แสดงผลผลลัพธ์ (แก้จุดที่วงเล็บเกินให้ถูกต้องแล้วครับ)
-st.markdown(iframe_html, unsafe_allow_html=True)
+# 3. ดึงหน้าเว็บ MindMirror (Lovable) มาแสดง
+# ปรับ height เป็น 100vh ผ่านการคำนวณหรือตั้งค่าสูงพอสำหรับหน้าจอมาตรฐาน
+components.iframe("https://mental-fortress-hub.lovable.app", height=900, scrolling=True)
